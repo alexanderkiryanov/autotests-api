@@ -26,6 +26,8 @@ touch .env
 Copy and paste the following environment variables into the `.env` file:
 
 ```shell
+APP_HOST="http://localhost:8000"
+
 DATABASE_URL="sqlite+aiosqlite:///./local.db"
 
 JWT_ALGORITHM="HS256"
