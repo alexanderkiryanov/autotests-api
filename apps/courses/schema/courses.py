@@ -3,6 +3,8 @@ from typing import Self
 from fastapi import Query
 from pydantic import UUID4, Field, BaseModel, model_validator
 
+from apps.files.schema.files import File
+from apps.users.schema.users import User
 from utils.schema.database import DatabaseSchema
 from utils.schema.query import QuerySchema
 
@@ -13,8 +15,9 @@ class Course(DatabaseSchema):
     max_score: int | None = Field(alias="maxScore", default=None)
     min_score: int | None = Field(alias="minScore", default=None)
     description: str
+    preview_file: File = Field(alias="previewFile")
     estimated_time: str | None = Field(alias="estimatedTime", default=None, max_length=50)
-    created_by_user_id: UUID4 = Field(alias="createdByUserId")
+    created_by_user: User = Field(alias="createdByUser")
 
 
 class CreateCourseRequest(BaseModel):
@@ -23,6 +26,7 @@ class CreateCourseRequest(BaseModel):
     min_score: int | None = Field(alias="minScore", default=None)
     description: str
     estimated_time: str | None = Field(alias="estimatedTime", default=None, max_length=50)
+    preview_file_id: UUID4 = Field(alias="previewFileId")
     created_by_user_id: UUID4 = Field(alias="createdByUserId")
 
     @model_validator(mode='after')
@@ -42,7 +46,7 @@ class UpdateCourseRequest(BaseModel):
 
     @model_validator(mode='after')
     def validate_model(self) -> Self:
-        if self.max_score < self.min_score:
+        if (self.max_score or 0) < (self.min_score or 0):
             raise ValueError('max score should not be less than min score')
 
         return self
