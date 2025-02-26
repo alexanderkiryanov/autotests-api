@@ -8,6 +8,7 @@ from apps.courses.schema.courses import GetCoursesQuery, GetCoursesResponse, Cre
     UpdateCourseRequest
 from apps.users.controllers.authentication import get_user_me
 from services.database.repositories.courses import CoursesRepository, get_courses_repository
+from services.database.repositories.files import FilesRepository, get_files_repository
 from utils.routes import APIRoutes
 
 courses_router = APIRouter(
@@ -68,6 +69,11 @@ async def update_course_view(
 @courses_router.delete('/{course_id}', dependencies=[Depends(get_user_me)])
 async def delete_course_view(
         course_id: uuid.UUID,
+        files_repository: Annotated[FilesRepository, Depends(get_files_repository)],
         courses_repository: Annotated[CoursesRepository, Depends(get_courses_repository)]
 ):
-    return await delete_course(course_id, courses_repository)
+    return await delete_course(
+        course_id,
+        files_repository=files_repository,
+        courses_repository=courses_repository
+    )

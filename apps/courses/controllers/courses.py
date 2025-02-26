@@ -1,8 +1,12 @@
 import uuid
 
+from fastapi import HTTPException, status
+
 from apps.courses.schema.courses import GetCoursesQuery, GetCoursesResponse, Course, CreateCourseRequest, \
     GetCourseResponse, UpdateCourseRequest
+from apps.files.controllers.files import delete_file
 from services.database.repositories.courses import CoursesRepository
+from services.database.repositories.files import FilesRepository
 
 
 async def get_course(
@@ -10,6 +14,10 @@ async def get_course(
         courses_repository: CoursesRepository
 ) -> GetCourseResponse:
     course = await courses_repository.get_by_id(course_id)
+    if not course:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Course not found"
+        )
 
     return GetCourseResponse(course=Course.model_validate(course))
 
@@ -42,5 +50,17 @@ async def update_course(
     return GetCourseResponse(course=Course.model_validate(course))
 
 
-async def delete_course(course_id: uuid.UUID, courses_repository: CoursesRepository):
+async def delete_course(
+        course_id: uuid.UUID,
+        files_repository: FilesRepository,
+        courses_repository: CoursesRepository
+):
+    course = await courses_repository.get_by_id(course_id)
+    if not course:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Course not found"
+        )
+
+    await delete_file(course.preview_file_id, files_repository)
+
     await courses_repository.delete(course_id)
