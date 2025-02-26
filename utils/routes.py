@@ -3,6 +3,7 @@ from enum import Enum
 
 class APIRoutes(str, Enum):
     USERS = '/users'
+    FILES = '/files'
     COURSES = '/courses'
     EXERCISES = '/exercises'
     AUTHENTICATION = '/authentication'
