@@ -1,5 +1,7 @@
 import uuid
 
+from fastapi import HTTPException, status
+
 from apps.exercises.schema.exercises import GetExerciseResponse, Exercise, GetExercisesQuery, GetExercisesResponse, \
     CreateExerciseRequest, UpdateExerciseRequest
 from services.database.repositories.exercises import ExercisesRepository
@@ -10,6 +12,10 @@ async def get_exercise(
         exercises_repository: ExercisesRepository
 ) -> GetExerciseResponse:
     exercise = await exercises_repository.get_by_id(exercise_id)
+    if not exercise:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found"
+        )
 
     return GetExerciseResponse(exercise=Exercise.model_validate(exercise))
 
