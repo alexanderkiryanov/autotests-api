@@ -21,7 +21,6 @@ class CreateUserRequest(BaseModel):
 
 class UpdateUserRequest(BaseModel):
     email: EmailStr | None = Field(default=None, max_length=250)
-    password: str | None = Field(default=None, max_length=250)
     last_name: str | None = Field(alias="lastName", default=None, max_length=50)
     first_name: str | None = Field(alias="firstName", default=None, max_length=50)
     middle_name: str | None = Field(alias="middleName", default=None, max_length=50)
