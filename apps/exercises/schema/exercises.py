@@ -13,8 +13,8 @@ class Exercise(DatabaseSchema):
     course_id: UUID4 = Field(alias="courseId")
     max_score: int | None = Field(alias="maxScore")
     min_score: int | None = Field(alias="minScore")
-    description: str
     order_index: int = Field(alias="orderIndex", default=0)
+    description: str
     estimated_time: str | None = Field(alias="estimatedTime", max_length=50)
 
 
@@ -23,8 +23,8 @@ class CreateExerciseRequest(BaseModel):
     course_id: UUID4 = Field(alias="courseId")
     max_score: int | None = Field(alias="maxScore")
     min_score: int | None = Field(alias="minScore")
-    description: str
     order_index: int = Field(alias="orderIndex", default=0)
+    description: str
     estimated_time: str | None = Field(alias="estimatedTime", max_length=50)
 
     @model_validator(mode='after')
@@ -39,8 +39,8 @@ class UpdateExerciseRequest(BaseModel):
     title: str | None = Field(default=None, max_length=250)
     max_score: int | None = Field(alias="maxScore", default=None)
     min_score: int | None = Field(alias="minScore", default=None)
-    description: str | None = None
     order_index: int | None = Field(alias="orderIndex", default=None)
+    description: str | None = None
     estimated_time: str | None = Field(alias="estimatedTime", default=None, max_length=50)
 
     @model_validator(mode='after')
