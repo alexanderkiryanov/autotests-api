@@ -31,7 +31,7 @@ class CreateCourseRequest(BaseModel):
 
     @model_validator(mode='after')
     def validate_model(self) -> Self:
-        if self.max_score < self.min_score:
+        if (self.max_score or 0) < (self.min_score or 0):
             raise ValueError('max score should not be less than min score')
 
         return self

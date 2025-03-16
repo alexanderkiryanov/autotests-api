@@ -29,8 +29,8 @@ async def get_file_view(
 
 @files_router.post('', dependencies=[Depends(get_user_me)], response_model=GetFileResponse)
 async def create_file_view(
-        filename: Annotated[str, Form()],
-        directory: Annotated[str, Form()],
+        filename: Annotated[str, Form(min_length=1, max_length=255)],
+        directory: Annotated[str, Form(min_length=1, max_length=1024)],
         upload_file: UploadFile,
         files_repository: Annotated[FilesRepository, Depends(get_files_repository)]
 ):
