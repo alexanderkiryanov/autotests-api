@@ -9,23 +9,23 @@ from utils.schema.query import QuerySchema
 
 class Exercise(DatabaseSchema):
     id: UUID4
-    title: str = Field(max_length=250)
+    title: str = Field(min_length=1, max_length=250)
     course_id: UUID4 = Field(alias="courseId")
     max_score: int | None = Field(alias="maxScore")
     min_score: int | None = Field(alias="minScore")
     order_index: int = Field(alias="orderIndex", default=0)
-    description: str
-    estimated_time: str | None = Field(alias="estimatedTime", max_length=50)
+    description: str = Field(min_length=1)
+    estimated_time: str | None = Field(alias="estimatedTime", min_length=1, max_length=50)
 
 
 class CreateExerciseRequest(BaseModel):
-    title: str = Field(max_length=250)
+    title: str = Field(min_length=1, max_length=250)
     course_id: UUID4 = Field(alias="courseId")
     max_score: int | None = Field(alias="maxScore")
     min_score: int | None = Field(alias="minScore")
     order_index: int = Field(alias="orderIndex", default=0)
-    description: str
-    estimated_time: str | None = Field(alias="estimatedTime", max_length=50)
+    description: str = Field(min_length=1)
+    estimated_time: str | None = Field(alias="estimatedTime", min_length=1, max_length=50)
 
     @model_validator(mode='after')
     def validate_model(self) -> Self:
@@ -36,12 +36,12 @@ class CreateExerciseRequest(BaseModel):
 
 
 class UpdateExerciseRequest(BaseModel):
-    title: str | None = Field(default=None, max_length=250)
+    title: str | None = Field(default=None, min_length=1, max_length=250)
     max_score: int | None = Field(alias="maxScore", default=None)
     min_score: int | None = Field(alias="minScore", default=None)
     order_index: int | None = Field(alias="orderIndex", default=None)
-    description: str | None = None
-    estimated_time: str | None = Field(alias="estimatedTime", default=None, max_length=50)
+    description: str | None = Field(default=None, min_length=1)
+    estimated_time: str | None = Field(alias="estimatedTime", default=None, min_length=1, max_length=50)
 
     @model_validator(mode='after')
     def validate_model(self) -> Self:

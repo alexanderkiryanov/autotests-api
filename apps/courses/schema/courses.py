@@ -11,21 +11,21 @@ from utils.schema.query import QuerySchema
 
 class Course(DatabaseSchema):
     id: UUID4
-    title: str = Field(max_length=250)
+    title: str = Field(min_length=1, max_length=250)
     max_score: int | None = Field(alias="maxScore", default=None)
     min_score: int | None = Field(alias="minScore", default=None)
-    description: str
+    description: str = Field(min_length=1)
     preview_file: File = Field(alias="previewFile")
-    estimated_time: str | None = Field(alias="estimatedTime", default=None, max_length=50)
+    estimated_time: str | None = Field(alias="estimatedTime", default=None, min_length=1, max_length=50)
     created_by_user: User = Field(alias="createdByUser")
 
 
 class CreateCourseRequest(BaseModel):
-    title: str = Field(max_length=250)
+    title: str = Field(min_length=1, max_length=250)
     max_score: int | None = Field(alias="maxScore", default=None)
     min_score: int | None = Field(alias="minScore", default=None)
-    description: str
-    estimated_time: str | None = Field(alias="estimatedTime", default=None, max_length=50)
+    description: str = Field(min_length=1)
+    estimated_time: str | None = Field(alias="estimatedTime", default=None, min_length=1, max_length=50)
     preview_file_id: UUID4 = Field(alias="previewFileId")
     created_by_user_id: UUID4 = Field(alias="createdByUserId")
 
@@ -38,11 +38,11 @@ class CreateCourseRequest(BaseModel):
 
 
 class UpdateCourseRequest(BaseModel):
-    title: str | None = Field(default=None, max_length=250)
+    title: str | None = Field(default=None, min_length=1, max_length=250)
     max_score: int | None = Field(alias="maxScore", default=None)
     min_score: int | None = Field(alias="minScore", default=None)
-    description: str | None = None
-    estimated_time: str | None = Field(alias="estimatedTime", default=None, max_length=50)
+    description: str | None = Field(default=None, min_length=1)
+    estimated_time: str | None = Field(alias="estimatedTime", default=None, min_length=1, max_length=50)
 
     @model_validator(mode='after')
     def validate_model(self) -> Self:
