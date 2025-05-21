@@ -1,15 +1,22 @@
+// Определение версии протокола
 syntax = "proto3";
 
+// Определяет область видимости сообщений и сервисов
 package userservice;
 
+// Определяем сообщение запроса
 message GetUserRequest {
     string username = 1;
 }
 
+// Определяем сообщение ответа
 message GetUserResponse {
     string message = 1;
 }
+// Число1 — это метка поля(field number), которая используется для сериализации данных
 
+
+// Определяем gRPC-сервис
 service UserService {
     rpc GetUser (GetUserRequest) returns (GetUserResponse);
 }
