@@ -2,14 +2,11 @@ import websockets
 import asyncio
 
 async def client():
-    uri = "ws://localhost:8765"
-    async with websockets.connect(uri) as websocket:
-        message = "Привет, сервер!"
-        await websocket.send(message)
+    async with websockets.connect("ws://localhost:8765") as websocket:
+        await websocket.send("Привет, сервер!")
 
-
-    for _ in range(5):
-        response = await websocket.recv()
-        print(f"Ответ от сервера: {response}")
+        for _ in range(5):
+            message = await websocket.recv()
+            print(message)
 
 asyncio.run(client())
