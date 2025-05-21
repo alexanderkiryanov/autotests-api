@@ -4,7 +4,7 @@ import websockets
 
 async def echo(ws):
     async for message in ws:
-        print(f"Получено сообщение: {message}")
+        print(f"Получено сообщение от пользователя: {message}")
         response = f"Сервер получил: {message}"
         await ws.send(response)
 
