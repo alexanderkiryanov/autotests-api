@@ -13,7 +13,7 @@ message GetUserRequest {
 message GetUserResponse {
     string message = 1;
 }
-// Число1 — это метка поля(field number), которая используется для сериализации данных
+// Число 1 — это метка поля(field number), которая используется для сериализации данных
 
 
 // Определяем gRPC-сервис
