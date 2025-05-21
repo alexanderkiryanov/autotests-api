@@ -6,7 +6,7 @@ def client():
     server_address = ('localhost', 12345)
     client_socket.connect(server_address)
 
-    message = input(f"Введите сообщение для сервера: ").strip()
+    message = input().strip()
     client_socket.sendall(message.encode())
 
     messages_list = []

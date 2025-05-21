@@ -10,11 +10,10 @@ def server():
     server_address = ("localhost", 12345)
     server_socket.bind(server_address)
     server_socket.listen(10)
-    print("Сервер запущен и ждет подключений ...")
 
     while True:
         client_socket, client_address = server_socket.accept()
-        print(f"Подключение с адресом: {client_address} подключился к сети")
+        print(f"Подключение с адресом: {client_address} подключился к серверу")
 
         data = client_socket.recv(1024).decode()
         if data:
