@@ -43,7 +43,7 @@ class CoursesClient(APIClient):
         :param query: Словарь с userId.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.get("http://localhost:8000/api/v1/exercises", params=query)
+        return self.get("http://localhost:8000/api/v1/courses", params=query)
 
 
     def get_course_api(self, course_id: str) -> Response:
@@ -53,7 +53,7 @@ class CoursesClient(APIClient):
         :param course_id: Идентификатор курса.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.get(f"http://localhost:8000/api/v1/exercises/{course_id}")
+        return self.get(f"http://localhost:8000/api/v1/courses/{course_id}")
 
 
     def create_course_api(self, request: CreateCourseRequestDict) -> Response:
@@ -64,7 +64,7 @@ class CoursesClient(APIClient):
         previewFileId, createdByUserId.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post("http://localhost:8000/api/v1/exercises", json=request)
+        return self.post("http://localhost:8000/api/v1/courses", json=request)
 
 
     def update_course_api(self, course_id: str, request: UpdateCourseRequestDict) -> Response:
@@ -75,7 +75,7 @@ class CoursesClient(APIClient):
         :param request: Словарь с title, maxScore, minScore, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.patch(f"http://localhost:8000/api/v1/exercises/{course_id}", json=request)
+        return self.patch(f"http://localhost:8000/api/v1/courses/{course_id}", json=request)
 
 
     def delete_course_api(self, course_id: str) -> Response:
@@ -85,4 +85,4 @@ class CoursesClient(APIClient):
         :param course_id: Идентификатор курса.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.delete(f"http://localhost:8000/api/v1/exercises/{course_id}")
+        return self.delete(f"http://localhost:8000/api/v1/courses/{course_id}")
