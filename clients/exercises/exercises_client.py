@@ -3,14 +3,14 @@ from typing import TypedDict
 from clients.api_client import APIClient
 
 
-class GetRequestExercisesDict(TypedDict):
+class GetExercisesQueryDict(TypedDict):
     """
     Описание структуры запроса на получение списка уроков.
     """
-    exercisesId: str
+    courseId: str
 
 
-class CreateRequestExercisesDict(TypedDict):
+class CreateExerciseRequestDict(TypedDict):
     """
     Описание структуры запроса на создание уроков.
     """
@@ -23,7 +23,7 @@ class CreateRequestExercisesDict(TypedDict):
     estimatedTime: str
 
 
-class UpdateRequestExercisesDict(TypedDict):
+class UpdateRequestExerciseDict(TypedDict):
     """
     Описание структуры запроса на обновление уроков.
     """
@@ -39,48 +39,48 @@ class ExercisesClient(APIClient):
     """
     Клиент для работы с /api/v1/exercises
     """
-    def get_exercises_api(self, query: GetRequestExercisesDict) -> Response:
+    def get_exercises_api(self, query: GetExercisesQueryDict) -> Response:
         """
         Метод получения списка уроков.
 
-        :param query: Словарь с exercisesId.
+        :param query: Словарь с courseId.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.get("http://localhost:8000/api/v1/exercises", params=query)
+        return self.get("/api/v1/exercises", params=query)
 
-    def get_exercise_api(self, exercises_id: str) -> Response:
+    def get_exercise_api(self, exercise_id: str) -> Response:
         """
         Метод получения урока.
 
-        :param exercises_id: Идентификатор урока.
+        :param exercise_id: Идентификатор урока.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.get(f"http://localhost:8000/api/v1/exercises/{exercises_id}")
+        return self.get(f"/api/v1/exercises/{exercise_id}")
 
-    def create_exercise_api(self, request: CreateRequestExercisesDict) -> Response:
+    def create_exercise_api(self, request: CreateExerciseRequestDict) -> Response:
         """
         Метод создания урока.
 
         :param request: Словарь с title, maxScore, minScore, courseId, orderIndex, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.post("http://localhost:8000/api/v1/exercises", json=request)
+        return self.post("/api/v1/exercises", json=request)
 
-    def update_exercise_api(self, exercises_id: str, request: UpdateRequestExercisesDict) -> Response:
+    def update_exercise_api(self, exercise_id: str, request: UpdateRequestExerciseDict) -> Response:
         """
         Метод обновления урока.
 
-        :param exercises_id: Идентификатор урока.
+        :param exercise_id: Идентификатор урока.
         :param request: Словарь с title, maxScore, minScore, orderIndex, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.patch(f"http://localhost:8000/api/v1/exercises/{exercises_id}", json=request)
+        return self.patch(f"/api/v1/exercises/{exercise_id}", json=request)
 
     def delete_exercise_api(self, exercise_id: str) -> Response:
         """
         Метод удаления урока.
 
-        :param exercises_id: Идентификатор урока.
+        :param exercise_id: Идентификатор урока.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.delete(f"http://localhost:8000/api/v1/exercises/{exercise_id}")
+        return self.delete(f"/api/v1/exercises/{exercise_id}")
