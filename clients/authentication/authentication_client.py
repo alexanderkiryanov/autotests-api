@@ -68,4 +68,4 @@ def get_authentication_client() -> AuthenticationClient:
 
     :return: Готовый к использованию AuthenticationClient.
     """
-    return AuthenticationClient(client=get_public_http_client)
+    return AuthenticationClient(client=get_public_http_client())

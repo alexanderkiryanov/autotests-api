@@ -1,9 +1,19 @@
 from clients.api_client import APIClient
-import httpx
+from httpx import Response
 from typing import TypedDict
 from clients.public_http_builder import get_public_http_client
 
-class UserRequestDict(TypedDict):
+class User(TypedDict):
+    """
+    Описание структуры пользователя.
+    """
+    id: str
+    email: str
+    lastName: str
+    firstName: str
+    middleName: str
+
+class CreateUserRequestDict(TypedDict):
     """
     Описание структуры запроса для создания нового пользователя.
     """
@@ -12,16 +22,19 @@ class UserRequestDict(TypedDict):
     lastName: str
     firstName: str
     middleName: str
+
+class CreateResponseDict(TypedDict):
     """
-    Название ключей (lastName, firstName, middleName) совпадает с API.
+    Описание структуры ответа создания пользователя.
     """
+    user: User
 
 
 class PublicUsersClient(APIClient):
     """
     Клиент для работы с /api/v1/users
     """
-    def create_user_api(self, request: UserRequestDict) -> httpx.Response:
+    def create_user_api(self, request: CreateUserRequestDict) -> Response:
         """
         Метод выполняет создание нового пользователя.
 
@@ -30,10 +43,15 @@ class PublicUsersClient(APIClient):
         """
         return self.post("/api/v1/users", json=request)
 
+    # Добавили новый метод, который десериализует (парсит) json в python dict
+    def create_user(self, request: CreateUserRequestDict) -> CreateResponseDict:
+        response = self.create_user_api(request)
+        return response.json()
+
 def get_public_users_client() -> PublicUsersClient:
     """
     Функция создаёт экземпляр PublicUsersClient с уже настроенным HTTP-клиентом.
 
     :return: Готовый к использованию PublicUsersClient.
     """
-    return PublicUsersClient(client=get_public_http_client)
+    return PublicUsersClient(client=get_public_http_client())
